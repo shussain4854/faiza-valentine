@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mom… Will You Be My Valentine? 🐾💖</title>
+
+  <style>
+    :root{
+      --bg1:#ffe6f0;
+      --bg2:#ffd1dc;
+      --card:rgba(255,255,255,.9);
+      --shadow:0 20px 60px rgba(0,0,0,.18);
+      --pink:#ff5fa2;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      padding:24px;
+      overflow:hidden;
+    }
+
+    .paws{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.2;
+      font-size:32px;
+      animation: float 10s linear infinite;
+      white-space:nowrap;
+    }
+
+    @keyframes float{
+      from{transform:translateY(0)}
+      to{transform:translateY(-25%)}
+    }
+
+    .card{
+      width:min(520px,100%);
+      background:var(--card);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+      padding:26px 22px;
+      text-align:center;
+    }
+
+    h1{
+      margin:10px 0;
+      font-size:2rem;
+    }
+
+    .sub{
+      opacity:.75;
+      margin-bottom:18px;
+    }
+
+    .buttons{
+      position:relative;
+      height:120px;
+    }
+
+    .btn{
+      border:0;
+      padding:14px 22px;
+      border-radius:18px;
+      font-size:1.05rem;
+      cursor:pointer;
+      box-shadow:0 12px 22px rgba(0,0,0,.15);
+      transition:transform .15s ease;
+    }
+
+    .btn:hover{transform:translateY(-2px)}
+
+    .yes{
+      background:var(--pink);
+      color:white;
+    }
+
+    .no{
+      background:#fff;
+      position:absolute;
+      left:50%;
+      top:55%;
+      transform:translate(-50%,-50%);
+    }
+
+    .result{
+      margin-top:18px;
+      padding:16px;
+      border-radius:18px;
+      background:#fff;
+      display:none;
+      animation: pop .3s ease forwards;
+    }
+
+    @keyframes pop{
+      from{transform:scale(.95); opacity:0}
+      to{transform:scale(1); opacity:1}
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      display:grid;
+      place-items:center;
+      z-index:999;
+    }
+
+    .modal.hidden{display:none}
+
+    .modal-card{
+      background:#fff;
+      border-radius:22px;
+      padding:16px;
+      width:min(420px,100%);
+      text-align:center;
+    }
+
+    .modal img{
+      width:100%;
+      border-radius:18px;
+      margin-top:10px;
+    }
+
+    .close{
+      border:0;
+      background:#eee;
+      border-radius:12px;
+      padding:6px 10px;
+      float:right;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="paws">🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾</div>
+
+  <div class="card">
+    <h1>Mom… will you be my Valentine? 🐾💖</h1>
+    <p class="sub">— Love, Leo 😽</p>
+
+    <div class="buttons" id="stage">
+      <button class="btn yes" id="yesBtn">Yes 😻</button>
+      <button class="btn no" id="noBtn">No 🙀</button>
+    </div>
+
+    <div class="result" id="result">
+      <h2>YAY MOM!! 💕🐾</h2>
+      <p>
+        Thank you for the treats 🍗, cuddles 🛋️,  
+        and letting me sleep wherever I want 😼
+      </p>
+      <p><strong>Forever your baby — Leo 🐈‍⬛</strong></p>
+    </div>
+  </div>
+
+  <!-- Photo Modal -->
+  <div class="modal hidden" id="modal">
+    <div class="modal-card">
+      <button class="close" id="close">✖</button>
+      <h3>Mom & Me 💕</h3>
+      <img id="leoImg" src="IMG_5920.png" alt="Leo" />
+      <p>Will cuddle for treats 🐾</p>
+    </div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const result = document.getElementById("result");
+    const modal = document.getElementById("modal");
+    const close = document.getElementById("close");
+    const stage = document.getElementById("stage");
+
+    const noTexts = ["No 🙀","Really no? 🥺","Mom pls 😿","I’ll be good 😇","Okay… YES? 😻"];
+    let count = 0;
+
+    yesBtn.onclick = () => {
+      result.style.display = "block";
+      modal.classList.remove("hidden");
+      yesBtn.disabled = true;
+      noBtn.disabled = true;
+    };
+
+    noBtn.onclick = (e) => {
+      e.preventDefault();
+      const r = stage.getBoundingClientRect();
+      const x = Math.random()*(r.width-80);
+      const y = Math.random()*(r.height-40);
+      noBtn.style.left = x+"px";
+      noBtn.style.top = y+"px";
+      noBtn.textContent = noTexts[Math.min(++count, noTexts.length-1)];
+    };
+
+    close.onclick = () => modal.classList.add("hidden");
+    modal.onclick = (e) => { if(e.target===modal) modal.classList.add("hidden"); };
+  </script>
+</body>
+</html>
